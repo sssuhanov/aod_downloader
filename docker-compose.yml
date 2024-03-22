@@ -10,6 +10,23 @@ services:
       POSTGRES_USER: ${DAGSTER_POSTGRES_USER}
       POSTGRES_PASSWORD: ${DAGSTER_POSTGRES_PASSWORD}
       POSTGRES_DB: "postgres_db"
+    ports:
+      - "5432:5432"
+    networks:
+      - aod_downloader_network
+
+  # This service runs the postgres DB for collect data from albion-data-project
+  dwh_postgresql:
+    image: postgres:11
+    container_name: dwh_postgresql
+    environment:
+      POSTGRES_USER: ${DWH_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DWH_POSTGRES_PASSWORD}
+      POSTGRES_DB: "postgres_db"
+    ports:
+      - "5433:5432" # Use a different port to avoid conflicts
+    volumes:
+      - app-
     networks:
       - aod_downloader_network
 
