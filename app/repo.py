@@ -19,7 +19,7 @@ def my_graph():
     goodbye(hello())
 
 
-my_job = my_graph.to_job(name="my_job")
+my_job = my_graph.to_job(name="my_job_sss")
 
 my_step_isolated_job = my_graph.to_job(
     name="my_step_isolated_job",
