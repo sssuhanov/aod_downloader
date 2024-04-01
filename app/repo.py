@@ -1,4 +1,4 @@
-from dagster import FilesystemIOManager, graph, op, repository, schedule
+from dagster import FilesystemIOManager, graph, op, repository, schedule, Definitions
 from dagster_docker import docker_executor
 
 
@@ -32,7 +32,7 @@ my_step_isolated_job = my_graph.to_job(
 def my_schedule(_context):
     return {}
 
-
-@repository
-def deploy_docker_repository():
-    return [my_job, my_step_isolated_job, my_schedule]
+defs = Definitions(
+    jobs=[my_job, my_step_isolated_job],
+    schedules=[my_schedule]
+)
