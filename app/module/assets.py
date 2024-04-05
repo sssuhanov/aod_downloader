@@ -12,11 +12,8 @@ from dagster import (
     MetadataValue,
     asset,
     MaterializeResult,
-    Definitions,
-    define_asset_job,
-    AssetSelection,
-    ScheduleDefinition
 )
+
 
 
 @asset # add the asset decorator to tell Dagster this is an asset
@@ -96,24 +93,3 @@ def most_frequent_words() -> MaterializeResult:
 
     # Attach the Markdown content as metadata to the asset
     return MaterializeResult(metadata={"plot": MetadataValue.md(md_content)})
-
-
-all_assets = [
-    topstory_ids,
-    topstories,
-    most_frequent_words
-]
-
-# Addition: define a job that will materialize the assets
-hackernews_job = define_asset_job("hackernews_job", selection=AssetSelection.all())
-
-# Addition: a ScheduleDefinition the job it should run and a cron schedule of how frequently to run it
-hackernews_schedule = ScheduleDefinition(
-    job=hackernews_job,
-    cron_schedule="0 * * * *",  # every hour
-)
-
-defs = Definitions(
-    assets=all_assets,
-    schedules=[hackernews_schedule]
-)
