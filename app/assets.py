@@ -115,6 +115,5 @@ hackernews_schedule = ScheduleDefinition(
 
 defs = Definitions(
     assets=all_assets,
-    # jobs=[hackernews_job],
     schedules=[hackernews_schedule]
 )
