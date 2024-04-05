@@ -7,7 +7,16 @@ import pandas as pd
 import requests
 import matplotlib.pyplot as plt
 
-from dagster import AssetExecutionContext, MetadataValue, asset, MaterializeResult, Definitions
+from dagster import (
+    AssetExecutionContext,
+    MetadataValue,
+    asset,
+    MaterializeResult,
+    Definitions,
+    define_asset_job,
+    AssetSelection,
+    ScheduleDefinition
+)
 
 
 @asset # add the asset decorator to tell Dagster this is an asset
@@ -95,6 +104,17 @@ all_assets = [
     most_frequent_words
 ]
 
+# Addition: define a job that will materialize the assets
+hackernews_job = define_asset_job("hackernews_job", selection=AssetSelection.all())
+
+# Addition: a ScheduleDefinition the job it should run and a cron schedule of how frequently to run it
+hackernews_schedule = ScheduleDefinition(
+    job=hackernews_job,
+    cron_schedule="0 * * * *",  # every hour
+)
+
 defs = Definitions(
     assets=all_assets,
+    # jobs=[hackernews_job],
+    schedules=[hackernews_schedule]
 )
