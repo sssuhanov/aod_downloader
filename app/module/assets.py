@@ -14,6 +14,7 @@ from dagster import (
     MaterializeResult,
 )
 
+from .resources import DataGeneratorResource
 
 
 @asset # add the asset decorator to tell Dagster this is an asset
@@ -93,3 +94,18 @@ def most_frequent_words() -> MaterializeResult:
 
     # Attach the Markdown content as metadata to the asset
     return MaterializeResult(metadata={"plot": MetadataValue.md(md_content)})
+
+@asset
+def signups(hackernews_api: DataGeneratorResource) -> MaterializeResult:
+    signups = pd.DataFrame(hackernews_api.get_signups())
+
+    signups.to_csv("data/signups.csv")
+
+    return MaterializeResult(
+        metadata={
+            "Record Count": len(signups),
+            "Preview": MetadataValue.md(signups.head().to_markdown()),
+            "Earliest Signup": signups["registered_at"].min(),
+            "Latest Signup": signups["registered_at"].max(),
+        }
+    )
