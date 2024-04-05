@@ -22,7 +22,7 @@ hackernews_schedule = ScheduleDefinition(
     cron_schedule="0 * * * *",  # every hour
 )
 
-datagen = DataGeneratorResource()
+datagen = DataGeneratorResource(num_days=365)
 
 defs = Definitions(
     assets=all_assets,
