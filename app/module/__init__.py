@@ -4,7 +4,8 @@ from dagster import (
     define_asset_job,
     AssetSelection,
     ScheduleDefinition,
-    load_assets_from_modules
+    load_assets_from_modules,
+    EnvVar
 )
 
 from .resources import DataGeneratorResource
@@ -22,7 +23,9 @@ hackernews_schedule = ScheduleDefinition(
     cron_schedule="0 * * * *",  # every hour
 )
 
-datagen = DataGeneratorResource(num_days=365)
+datagen = DataGeneratorResource(
+    num_days = EnvVar.int("HACKERNEWS_NUM_DAYS_WINDOW")
+)
 
 defs = Definitions(
     assets=all_assets,

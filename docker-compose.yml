@@ -46,6 +46,7 @@ services:
       DAGSTER_POSTGRES_PASSWORD: ${DAGSTER_POSTGRES_PASSWORD}
       DAGSTER_POSTGRES_DB: "postgres_db"
       DAGSTER_CURRENT_IMAGE: "dagster_user_code_image"
+      HACKERNEWS_NUM_DAYS_WINDOW: ${HACKERNEWS_NUM_DAYS_WINDOW}
     volumes:
       - ./app:/opt/dagster/app
     networks:
