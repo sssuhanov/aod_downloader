@@ -15,7 +15,7 @@ from .assets import core_assets
 all_assets = [*core_assets]
 
 # Addition: define a job that will materialize the assets
-main_job = define_asset_job("hackernews_job", selection=AssetSelection.all())
+main_job = define_asset_job("main_job", selection=AssetSelection.all())
 
 # Addition: a ScheduleDefinition the job it should run and a cron schedule of how frequently to run it
 hour_schedule = ScheduleDefinition(
