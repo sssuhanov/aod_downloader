@@ -10,7 +10,7 @@ from dagster import (
 
 from .resources import DataGeneratorResource
 
-from . import assets
+from .assets import assets
 
 all_assets = load_assets_from_modules([assets])
 

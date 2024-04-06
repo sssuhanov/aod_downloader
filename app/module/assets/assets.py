@@ -14,7 +14,7 @@ from dagster import (
     MaterializeResult,
 )
 
-from .resources import DataGeneratorResource
+from ..resources import DataGeneratorResource
 
 
 @asset # add the asset decorator to tell Dagster this is an asset
