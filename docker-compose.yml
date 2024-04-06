@@ -46,7 +46,10 @@ services:
       DAGSTER_POSTGRES_PASSWORD: ${DAGSTER_POSTGRES_PASSWORD}
       DAGSTER_POSTGRES_DB: ${DAGSTER_POSTGRES_DB}
       DAGSTER_CURRENT_IMAGE: "dagster_user_code_image"
-      HACKERNEWS_NUM_DAYS_WINDOW: ${HACKERNEWS_NUM_DAYS_WINDOW}
+      dbname: ${DWH_POSTGRES_DB}
+      user: ${DWH_POSTGRES_USER}      
+      password: ${DWH_POSTGRES_PASSWORD}
+      host: dwh_postgresql
     volumes:
       - ./app:/opt/dagster/app
     networks:
