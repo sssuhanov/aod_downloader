@@ -1,4 +1,5 @@
-# from dagster import Definitions, load_assets_from_modules
+import os
+
 from dagster import (
     Definitions,
     define_asset_job,
@@ -8,7 +9,7 @@ from dagster import (
     EnvVar
 )
 
-from .resources import DataGeneratorResource
+from .resources import RESOURCES_LOCAL
 
 from .assets import assets
 
@@ -23,14 +24,14 @@ hackernews_schedule = ScheduleDefinition(
     cron_schedule="0 * * * *",  # every hour
 )
 
-datagen = DataGeneratorResource(
-    num_days = EnvVar.int("HACKERNEWS_NUM_DAYS_WINDOW")
-)
+resources_by_deployment_name = {
+    "local": RESOURCES_LOCAL
+}
+
+deployment_name = os.environ.get("DAGSTER_DEPLOYMENT", "local")
 
 defs = Definitions(
     assets=all_assets,
     schedules=[hackernews_schedule],
-    resources={
-        "hackernews_api": datagen,
-    }
+    resources=resources_by_deployment_name[deployment_name]
 )
