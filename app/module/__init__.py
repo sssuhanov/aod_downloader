@@ -11,8 +11,12 @@ from dagster import (
 from .resources import RESOURCES_LOCAL
 
 from .assets import core_assets
+from .assets.dbt import (
+    dbt_project_assets,
+    dbt_resource,
+)
 
-all_assets = [*core_assets]
+all_assets = [dbt_project_assets, *core_assets]
 
 # Addition: define a job that will materialize the assets
 main_job = define_asset_job("main_job", selection=AssetSelection.all())
@@ -29,8 +33,11 @@ resources_by_deployment_name = {
 
 deployment_name = os.environ.get("DAGSTER_DEPLOYMENT", "local")
 
+res = resources_by_deployment_name[deployment_name]
+res['dbt'] = dbt_resource
+
 defs = Definitions(
     assets=all_assets,
     schedules=[hour_schedule],
-    resources=resources_by_deployment_name[deployment_name]
+    resources=res
 )
