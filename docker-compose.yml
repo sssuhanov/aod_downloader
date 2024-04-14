@@ -46,10 +46,11 @@ services:
       DAGSTER_POSTGRES_PASSWORD: ${DAGSTER_POSTGRES_PASSWORD}
       DAGSTER_POSTGRES_DB: ${DAGSTER_POSTGRES_DB}
       DAGSTER_CURRENT_IMAGE: "dagster_user_code_image"
-      dbname: ${DWH_POSTGRES_DB}
-      user: ${DWH_POSTGRES_USER}      
-      password: ${DWH_POSTGRES_PASSWORD}
-      host: dwh_postgresql
+      DWH_POSTGRES_HOST: ${DWH_POSTGRES_HOST}
+      DWH_POSTGRES_USER: ${DWH_POSTGRES_USER}
+      DWH_POSTGRES_PASSWORD: ${DWH_POSTGRES_PASSWORD}
+      DWH_POSTGRES_DB: ${DWH_POSTGRES_DB}
+      DWH_POSTGRES_PORT: ${DWH_POSTGRES_PORT}
     volumes:
       - ./app:/opt/dagster/app
     networks:
