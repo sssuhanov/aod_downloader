@@ -1,0 +1,13 @@
+# example profiles.yml file
+jaffle_shop:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DWH_POSTGRES_HOST') }}"
+      user: "{{ env_var('DWH_POSTGRES_USER') }}"
+      password: "{{ env_var('DWH_POSTGRES_PASSWORD') }}"
+      port: "{{ env_var('DWH_POSTGRES_PORT') | as_number }}"
+      dbname: "{{ env_var('DWH_POSTGRES_DB') }}"
+      schema: dbt_dev
+      threads: 4
