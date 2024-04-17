@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: aod
+    database: postgres_db
+    schema: aod_data
+    tables:
+      - name: history
