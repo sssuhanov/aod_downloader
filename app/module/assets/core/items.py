@@ -38,7 +38,7 @@ def history_items(context: AssetExecutionContext, aod_client: AODAPIClient, psql
 
         history = aod_client.fetch_history_by_id(items_string)
 
-        psql_client.drop_json(history)
+        psql_client.drop_json(history, 'aod_data', 'history')
 
         if len(chunk) < 100:
             break

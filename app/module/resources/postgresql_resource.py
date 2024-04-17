@@ -9,19 +9,27 @@ class PostgreSQLClient(ConfigurableResource):
     host: str
     password: str
 
-    def drop_json(self, data):
+    def drop_json(self, data, schema_name, table_name):
         # Connect to your postgres DB
-        conn = psycopg2.connect(f"dbname='{self.dbname}' user='{self.user}' host='{self.host}' password='{self.password}'")
+        conn = psycopg2.connect(dbname=self.dbname,
+                                user=self.user,
+                                host=self.host,
+                                password=self.password,
+                                options=f'-c search_path={schema_name}'
+                                )
 
         # Open a cursor to perform database operations
         cur = conn.cursor()
 
+        # Create schema
+        cur.execute(f"CREATE SCHEMA IF NOT EXISTS {schema_name}")
+
         # Execute a command: this creates a new table
-        cur.execute("CREATE TABLE IF NOT EXISTS your_table_name (id serial PRIMARY KEY, data jsonb);")
+        cur.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (id serial PRIMARY KEY, data jsonb);")
 
         # Insert data into the table
         # Note: Be mindful of SQL injection. Here, we are using a parameterized query.
-        cur.execute("INSERT INTO your_table_name (data) VALUES (%s);", (json.dumps(data),))
+        cur.execute(f"INSERT INTO {table_name} (data) VALUES (%s);", (json.dumps(data),))
 
         # Commit the changes to the database
         conn.commit()
