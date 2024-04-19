@@ -20,7 +20,7 @@ def history_item(aod_client: AODAPIClient, psql_client: PostgreSQLClient):
     # files_client.write_file(items_list, 'data/history.json')
     psql_client.drop_json(history_prices)
 
-@asset(key_prefix="aod")
+@asset(deps=["items_list"], key_prefix="aod")
 def history(context: AssetExecutionContext, aod_client: AODAPIClient, psql_client: PostgreSQLClient, files_client: FilesClient):
     data = files_client.read_json('data/items.json')
 
