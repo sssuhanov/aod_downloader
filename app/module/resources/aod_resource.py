@@ -6,7 +6,7 @@ AOD_BASE_URL = "https://west.albion-online-data.com/api/v2/stats"
 
 class AODAPIClient(ConfigurableResource):
 
-    def __request(self, url: str, params):
+    def __request(self, url: str, params={}):
         return requests.get(url, params=params, timeout=5).json()
 
 
@@ -23,6 +23,6 @@ class AODAPIClient(ConfigurableResource):
         list_url = 'https://raw.githubusercontent.com/ao-data/ao-bin-dumps/master/formatted/items.json'
 
         # Make a GET request to fetch the raw file content
-        items_list = requests.get(list_url, timeout=5).json()
+        items_list = self.__request(url=list_url)
         
         return items_list

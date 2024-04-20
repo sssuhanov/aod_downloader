@@ -25,7 +25,7 @@ class PostgreSQLClient(ConfigurableResource):
         cur.execute(f"CREATE SCHEMA IF NOT EXISTS {schema_name}")
 
         # Execute a command: this creates a new table
-        cur.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (id serial PRIMARY KEY, data jsonb);")
+        cur.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (id serial PRIMARY KEY, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, data jsonb);")
 
         # Insert data into the table
         # Note: Be mindful of SQL injection. Here, we are using a parameterized query.
