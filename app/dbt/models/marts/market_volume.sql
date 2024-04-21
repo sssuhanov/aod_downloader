@@ -1,6 +1,7 @@
 select 
-	q.item_id,
-	q.quality,
+	q.item_id item_id,
+	q.item_name item_name,
+	q.quality quality,
 	q."location",
     max(q."timestamp") as "timestamp",
 	avg(q.avg_price)::numeric(20,2) as avg_price,
@@ -9,6 +10,7 @@ select
 from {{ ref("stg_aod__history_2") }} q
 group by
 	q.item_id,
+	q.item_name,
 	q.quality,
 	q."location"
 order by volume DESC

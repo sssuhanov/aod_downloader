@@ -20,11 +20,12 @@ def history_item(aod_client: AODAPIClient, psql_client: PostgreSQLClient):
     # files_client.write_file(items_list, 'data/history.json')
     psql_client.drop_json(history_prices)
 
-@asset(deps=["items_list"], key_prefix="aod")
-def history(context: AssetExecutionContext, aod_client: AODAPIClient, psql_client: PostgreSQLClient, files_client: FilesClient):
-    data = files_client.read_json('data/items.json')
+@asset(deps=["items_names"], key_prefix="aod")
+def history(context: AssetExecutionContext, aod_client: AODAPIClient, psql_client: PostgreSQLClient):
 
-    items_list = [x['UniqueName'] for x in data]
+    data = psql_client.read_table('dbt_dev', 'stg_aod__items_names')
+
+    items_list = [x[1] for x in data if x[1] is not None]
 
     context.log.info(f"Items in file {len(items_list)}.")
 
@@ -43,7 +44,7 @@ def history(context: AssetExecutionContext, aod_client: AODAPIClient, psql_clien
         if len(chunk) < 100:
             break
 
-@asset
-def items_list(aod_client: AODAPIClient, files_client: FilesClient):
+@asset(key_prefix="aod")
+def items_names(aod_client: AODAPIClient, files_client: FilesClient, psql_client: PostgreSQLClient):
     items_list = aod_client.fetch_items_list()
-    files_client.write_json(items_list, 'data/items.json')
+    psql_client.drop_json(items_list, schema_name='aod', table_name='items_names')

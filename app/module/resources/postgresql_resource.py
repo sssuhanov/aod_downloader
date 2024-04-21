@@ -37,3 +37,25 @@ class PostgreSQLClient(ConfigurableResource):
         # Close communication with the database
         cur.close()
         conn.close()
+
+    def read_table(self, schema_name, table_name):
+        # Connect to your postgres DB
+        conn = psycopg2.connect(dbname=self.dbname,
+                                user=self.user,
+                                host=self.host,
+                                password=self.password
+                                )
+
+        # Open a cursor to perform database operations
+        cur = conn.cursor()
+
+        # Create schema
+        cur.execute(f"select * from {schema_name}.{table_name}")
+
+        all_rows = cur.fetchall()
+
+        # Close communication with the database
+        cur.close()
+        conn.close()
+
+        return all_rows

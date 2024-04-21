@@ -3,6 +3,7 @@ version: 2
 sources:
   - name: aod
     database: postgres_db
-    schema: aod_data
+    schema: aod
     tables:
       - name: history
+      - name: items_names
