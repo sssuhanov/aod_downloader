@@ -1,3 +1,8 @@
+with last_history as (
+	select *
+	from {{ ref("stg_aod__history_2") }}
+	where "timestamp" >= current_date - interval '14 days'
+)
 select 
 	q.item_id item_id,
 	q.item_name item_name,
@@ -13,7 +18,7 @@ select
 	min(q.item_count)::numeric(20,2) as min_item_count,
 	max(q.item_count)::numeric(20,2) as max_item_count,
 	max(q.item_count)::numeric(20,2) / min(q.item_count)::numeric(20,2) as avg_count_diff
-from {{ ref("stg_aod__history_2") }} q
+from last_history q
 group by
 	q.item_id,
 	q.item_name,
