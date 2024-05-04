@@ -7,7 +7,7 @@ AOD_BASE_URL = "https://west.albion-online-data.com/api/v2/stats"
 class AODAPIClient(ConfigurableResource):
 
     def __request(self, url: str, params={}):
-        return requests.get(url, params=params, timeout=5).json()
+        return requests.get(url, params=params, timeout=120).json()
 
 
     def fetch_current_prices_by_id(self, item_id: str):
