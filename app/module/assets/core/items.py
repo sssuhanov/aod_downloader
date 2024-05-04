@@ -7,7 +7,7 @@ from module.resources.aod_resource import AODAPIClient
 from module.resources.postgresql_resource import PostgreSQLClient
 from module.resources.files_resouce import FilesClient
 
-@asset(deps=["items_names"], key_prefix="aod", compute_kind='python')
+@asset(deps=["items_names", "stg_aod__items_names"], key_prefix="aod", compute_kind='python')
 def history(context: AssetExecutionContext, aod_client: AODAPIClient, psql_client: PostgreSQLClient):
 
     data = psql_client.read_table('dbt_dev', 'stg_aod__items_names')
