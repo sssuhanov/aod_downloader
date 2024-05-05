@@ -1,6 +1,6 @@
 with last_history as (
 	select *
-	from {{ ref("stg_aod__history_2") }}
+	from {{ ref("stg_aod__history_noduplicates") }}
 	where "timestamp" >= current_date - interval '14 days'
 )
 select 

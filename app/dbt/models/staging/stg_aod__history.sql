@@ -1,5 +1,6 @@
 select
 	h.id as id,
+	h.created_at as created_at,
 	jsonb_array_elements(h."data")->'item_id'::text as item_id,
 	jsonb_array_elements(h."data")->'quality'::text as quality,
 	jsonb_array_elements(h."data")->'location'::text as location,
