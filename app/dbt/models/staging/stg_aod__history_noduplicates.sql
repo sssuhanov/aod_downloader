@@ -8,6 +8,8 @@ select
 	rd.item_id,
 	rd.created_at,
 	rd.item_name,
+	rd.item_tier,
+	rd.item_enchantment,
 	rd.quality,
 	rd."location",
 	rd.avg_price,
@@ -17,6 +19,8 @@ FROM RankedData rd
 WHERE rn = 1
 order by
 	rd.item_id,
+	rd.item_tier,
+	rd.item_enchantment,
 	rd.quality,
 	rd."location",
 	rd."timestamp"

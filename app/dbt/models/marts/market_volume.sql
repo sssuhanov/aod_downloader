@@ -6,6 +6,8 @@ with last_history as (
 select 
 	q.item_id item_id,
 	q.item_name item_name,
+	q.item_tier item_tier,
+	q.item_enchantment item_enchantment,
 	q.quality quality,
 	q."location",
     max(q."timestamp") as "timestamp",
@@ -22,6 +24,8 @@ from last_history q
 group by
 	q.item_id,
 	q.item_name,
+	q.item_tier,
+	q.item_enchantment,
 	q.quality,
 	q."location"
 order by volume DESC
