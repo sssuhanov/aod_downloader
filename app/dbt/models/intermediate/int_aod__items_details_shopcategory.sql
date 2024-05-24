@@ -1,7 +1,7 @@
 select
-    uniquename::text,
-    shopcategory::text,
-    shopsubcategory1::text
+    uniquename,
+    shopcategory,
+    shopsubcategory1
 from {{ ref("stg_aod__items_details_consumablefrominventoryitem") }}
 union all
 select
