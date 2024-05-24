@@ -26,3 +26,11 @@ class AODAPIClient(ConfigurableResource):
         items_list = self.__request(url=list_url)
         
         return items_list
+    
+    def fetch_items_details(self):
+        list_url = 'https://raw.githubusercontent.com/ao-data/ao-bin-dumps/master/items.json'
+
+        # Make a GET request to fetch the raw file content
+        answer = self.__request(url=list_url)
+        
+        return answer

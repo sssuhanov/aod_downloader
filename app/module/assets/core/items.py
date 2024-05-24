@@ -35,3 +35,8 @@ def history(context: AssetExecutionContext, aod_client: AODAPIClient, psql_clien
 def items_names(aod_client: AODAPIClient, psql_client: PostgreSQLClient):
     items_list = aod_client.fetch_items_list()
     psql_client.drop_json(items_list, schema_name='aod', table_name='items_names')
+
+@asset(key_prefix="aod", compute_kind='python')
+def items_details(aod_client: AODAPIClient, psql_client: PostgreSQLClient):
+    items_list = aod_client.fetch_items_details()
+    psql_client.drop_json(items_list, schema_name='aod', table_name='items_details')
