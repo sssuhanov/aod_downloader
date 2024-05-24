@@ -1,0 +1,20 @@
+select
+    (jsonb_array_elements(i.furnitureitem)->>'@uniquename') as uniquename,
+    (jsonb_array_elements(i.furnitureitem)->>'@shopcategory') as shopcategory,
+    (jsonb_array_elements(i.furnitureitem)->>'@shopsubcategory1') as shopsubcategory1,
+    (jsonb_array_elements(i.furnitureitem)->>'@tier') as tier,
+    (jsonb_array_elements(i.furnitureitem)->>'@durability') as durability,
+    (jsonb_array_elements(i.furnitureitem)->>'@durabilitylossperdayfactor') as durabilitylossperdayfactor,
+    (jsonb_array_elements(i.furnitureitem)->>'@weight') as weight,
+    (jsonb_array_elements(i.furnitureitem)->>'@unlockedtocraft') as unlockedtocraft,
+    (jsonb_array_elements(i.furnitureitem)->>'@placeableindoors') as placeableindoors,
+    (jsonb_array_elements(i.furnitureitem)->>'@placeableoutdoors') as placeableoutdoors,
+    (jsonb_array_elements(i.furnitureitem)->>'@placeableindungeons') as placeableindungeons,
+    (jsonb_array_elements(i.furnitureitem)->>'@placeableinexpeditions') as placeableinexpeditions,
+    (jsonb_array_elements(i.furnitureitem)->>'@accessrightspreset') as accessrightspreset,
+    (jsonb_array_elements(i.furnitureitem)->>'@uicraftsoundstart') as uicraftsoundstart,
+    (jsonb_array_elements(i.furnitureitem)->>'@uicraftsoundfinish') as uicraftsoundfinish,
+    (jsonb_array_elements(i.furnitureitem)->'craftingrequirements') as craftingrequirements,
+    (jsonb_array_elements(i.furnitureitem)->'AudioInfo') as audioinfo_name,
+    (jsonb_array_elements(i.furnitureitem)->'repairkit') as repairkit
+from {{ ref("stg_aod__items_details") }} i
