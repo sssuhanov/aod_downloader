@@ -1,0 +1,20 @@
+select
+    (jsonb_array_elements(i.crystalleagueitem)->>'@uniquename') as uniquename,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@uisprite') as uisprite,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@shopcategory') as shopcategory,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@shopsubcategory1') as shopsubcategory1,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@tier') as tier,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@enchantmentlevel') as enchantmentlevel,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@resourcetype') as resourcetype,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@weight') as weight,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@maxstacksize') as maxstacksize,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@namelocatag') as namelocatag,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@descriptionlocatag') as descriptionlocatag,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@descvariable0') as descvariable0,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@salvageable') as salvageable,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@itemvalue') as itemvalue,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@tradable') as tradable,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@unlockedtocraft') as unlockedtocraft,
+    (jsonb_array_elements(i.crystalleagueitem)->>'@canbestoredinbattlevault') as canbestoredinbattlevault,
+    (jsonb_array_elements(i.crystalleagueitem)->'craftingrequirements') as craftingrequirements
+from {{ ref("stg_aod__items_details") }} i

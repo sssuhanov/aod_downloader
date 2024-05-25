@@ -7,3 +7,4 @@ sources:
     tables:
       - name: history
       - name: items_names
+      - name: items_details
