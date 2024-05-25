@@ -15,7 +15,7 @@ class AODAPIClient(ConfigurableResource):
         return self.__request(item_url)
     
     def fetch_history_by_id(self, item_id: str):
-        params = {'time-scale': '24'}
+        params = {'time-scale': '24', 'qualities': '1,2,3,4,5'}
         item_url = f"{AOD_BASE_URL}/history/{item_id}"
         return self.__request(item_url, params)
     
