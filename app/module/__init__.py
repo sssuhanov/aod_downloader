@@ -5,7 +5,8 @@ from dagster import (
     define_asset_job,
     AssetSelection,
     ScheduleDefinition,
-    EnvVar
+    EnvVar,
+    DefaultScheduleStatus
 )
 
 from .resources import RESOURCES_LOCAL
@@ -22,9 +23,10 @@ all_assets = [dbt_project_assets, *core_assets]
 main_job = define_asset_job("main_job", selection=AssetSelection.all())
 
 # Addition: a ScheduleDefinition the job it should run and a cron schedule of how frequently to run it
-hour_schedule = ScheduleDefinition(
+every_4_hours_schedule = ScheduleDefinition(
     job=main_job,
-    cron_schedule="0 * * * *",  # every hour
+    cron_schedule="0 */4 * * *",  # every 4 hours
+    default_status = DefaultScheduleStatus.RUNNING
 )
 
 resources_by_deployment_name = {
@@ -38,6 +40,6 @@ res['dbt'] = dbt_resource
 
 defs = Definitions(
     assets=all_assets,
-    schedules=[hour_schedule],
+    schedules=[every_4_hours_schedule],
     resources=res
 )
