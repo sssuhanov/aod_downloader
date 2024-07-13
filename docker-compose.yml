@@ -10,6 +10,8 @@ services:
       POSTGRES_USER: ${DAGSTER_POSTGRES_USER}
       POSTGRES_PASSWORD: ${DAGSTER_POSTGRES_PASSWORD}
       POSTGRES_DB: ${DAGSTER_POSTGRES_DB}
+    volumes:
+      - pg_dagster:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -23,6 +25,8 @@ services:
       POSTGRES_USER: ${DWH_POSTGRES_USER}
       POSTGRES_PASSWORD: ${DWH_POSTGRES_PASSWORD}
       POSTGRES_DB: ${DWH_POSTGRES_DB}
+    volumes:
+      - pg_dwh:/var/lib/postgresql/data
     ports:
       - "5433:5432" # Use a different port to avoid conflicts
     networks:
@@ -117,3 +121,7 @@ networks:
   aod_downloader_network:
     driver: bridge
     name: aod_downloader_network
+
+volumes:
+  pg_dwh:
+  pg_dagster:
