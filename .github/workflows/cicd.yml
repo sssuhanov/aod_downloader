@@ -43,12 +43,8 @@ jobs:
     - name: Adding Known Hosts
       run: ssh-keyscan -p ${{ secrets.REMOTE_PORT }} -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Restart Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.REMOTE_PORT }}
-        script: |
-          ./deploy.sh
+    - name: Deploy to server
+      run: |
+        ssh -o StrictHostKeyChecking=no -p ${{ secrets.REMOTE_PORT }} ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} <<'ENDSSH'
+        ./deploy.sh
+        ENDSSH
