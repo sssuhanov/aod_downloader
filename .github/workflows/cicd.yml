@@ -9,22 +9,22 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'  # Specify your Python version
+  #   - name: Set up Python
+  #     uses: actions/setup-python@v2
+  #     with:
+  #       python-version: '3.8'  # Specify your Python version
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Adjust if using other dependency management
+  #   - name: Install dependencies
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install -r requirements.txt  # Adjust if using other dependency management
 
   deploy:
     needs: build
@@ -34,13 +34,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Set up SSH key
+        run: |
+          env
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.REMOTE_PORT }} ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
     - name: Deploy to server
-      run: |
-        ssh -o StrictHostKeyChecking=no -p ${{ secrets.REMOTE_PORT }} ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.REMOTE_PORT }} ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} <<'ENDSSH'
           ./deploy.sh
-        EOF
+          ENDSSH
