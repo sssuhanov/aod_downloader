@@ -1,4 +1,11 @@
+{{
+    config(
+        materialized='incremental'
+    )
+}}
+
 select
+	h.id drop_id,
 	h.item_id item_id,
 	h.created_at created_at,
 	i."en_us" as item_name,
@@ -13,8 +20,9 @@ select
 	i.shopsubcategory1 as shopsubcategory1
 from {{ ref("stg_aod__history")}} h
 left join {{ ref("int_aod__items")}} i on h.item_id = i."unique_name"
-order by
-	h.item_id,
-	h.quality,
-	h."location",
-	h.created_at
+
+{% if is_incremental() %}
+
+where h.id >= (select coalesce(max(drop_id), 0) from {{ this }} )
+
+{% endif %}
