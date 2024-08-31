@@ -1,5 +1,5 @@
 select
-	h.id::text as id,
+	(h.id)::numeric as id,
 	(h.created_at)::timestamp as created_at,
 	(jsonb_array_elements(h."data")->>'item_id')::text as item_id,
 	(jsonb_array_elements(h."data")->>'quality')::text as quality,
