@@ -6,7 +6,8 @@ from dagster import (
     AssetSelection,
     ScheduleDefinition,
     EnvVar,
-    DefaultScheduleStatus
+    DefaultScheduleStatus,
+    RunConfig
 )
 
 from .resources import RESOURCES_LOCAL
@@ -15,12 +16,20 @@ from .assets import core_assets
 from .assets.dbt import (
     dbt_project_assets,
     dbt_resource,
+    MyDbtConfig
 )
 
 all_assets = [dbt_project_assets, *core_assets]
 
 # Addition: define a job that will materialize the assets
-main_job = define_asset_job("main_job", selection=AssetSelection.all())
+main_job = define_asset_job(
+    "main_job", 
+    selection=AssetSelection.all(),
+    config=RunConfig({
+        "dbt_project_assets": MyDbtConfig(full_refresh=False),
+        "dbt_project_assets_2": MyDbtConfig(full_refresh=False),
+        })
+)
 
 # Addition: a ScheduleDefinition the job it should run and a cron schedule of how frequently to run it
 every_4_hours_schedule = ScheduleDefinition(
