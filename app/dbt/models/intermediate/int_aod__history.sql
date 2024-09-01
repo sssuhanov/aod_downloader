@@ -23,6 +23,6 @@ left join {{ ref("int_aod__items")}} i on h.item_id = i."unique_name"
 
 {% if is_incremental() %}
 
-where h.id >= (select coalesce(max(drop_id), 0) from {{ this }} )
+where h.id > (select coalesce(max(drop_id), 0) from {{ this }} )
 
 {% endif %}

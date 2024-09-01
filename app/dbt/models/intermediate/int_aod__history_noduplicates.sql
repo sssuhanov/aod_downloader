@@ -10,7 +10,7 @@ WITH history AS (
     FROM {{ ref("int_aod__history")}} sah
 	{% if is_incremental() %}
 
-	WHERE sah.created_at >= (select coalesce(max(created_at), '1900-01-01') from {{ this }} )
+	WHERE sah.created_at > (select coalesce(max(created_at), '1900-01-01') from {{ this }} )
 
 	{% endif %}
 )
