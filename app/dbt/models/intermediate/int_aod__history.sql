@@ -13,6 +13,7 @@ select
 	i.shopsubcategory1 as shopsubcategory1
 from {{ ref("stg_aod__history")}} h
 left join {{ ref("int_aod__items")}} i on h.item_id = i."unique_name"
+where h.id = (select max(id) from {{ ref("stg_aod__history")}})
 order by
 	h.item_id,
 	h.quality,
