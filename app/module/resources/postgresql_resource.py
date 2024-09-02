@@ -38,6 +38,28 @@ class PostgreSQLClient(ConfigurableResource):
         cur.close()
         conn.close()
 
+    def clear_table(self, schema_name, table_name):
+        # Connect to your postgres DB
+        conn = psycopg2.connect(dbname=self.dbname,
+                                user=self.user,
+                                host=self.host,
+                                password=self.password,
+                                options=f'-c search_path={schema_name}'
+                                )
+
+        # Open a cursor to perform database operations
+        cur = conn.cursor()
+
+        # Clean the table
+        cur.execute(f"DELETE FROM {table_name};")
+
+        # Commit the changes to the database
+        conn.commit()
+
+        # Close communication with the database
+        cur.close()
+        conn.close()
+
     def read_table(self, schema_name, table_name):
         # Connect to your postgres DB
         conn = psycopg2.connect(dbname=self.dbname,
