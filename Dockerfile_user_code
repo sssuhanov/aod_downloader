@@ -12,7 +12,8 @@ RUN pip install \
     matplotlib \
     faker \
     dagster_dbt \
-    dbt-postgres
+    dbt-postgres \
+    pydantic==2.8.2
 
 # Add repository code
 
